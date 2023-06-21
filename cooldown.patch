@@ -1,0 +1,46 @@
+diff --git a/javascript/contextMenus.js b/javascript/contextMenus.js
+index f14af1d4..01fbf6d7 100644
+--- a/javascript/contextMenus.js
++++ b/javascript/contextMenus.js
+@@ -136,27 +136,37 @@ var addContextMenuEventListener = initResponse[2];
+     let generateOnRepeat = function(genbuttonid, interruptbuttonid) {
+         let genbutton = gradioApp().querySelector(genbuttonid);
+         let interruptbutton = gradioApp().querySelector(interruptbuttonid);
++        let coolDown = window.prompt("Seconds to cooldown", 30);
++		let coolDownCounter = coolDown;
+         if (!interruptbutton.offsetParent) {
+             genbutton.click();
+         }
+         clearInterval(window.generateOnRepeatInterval);
+         window.generateOnRepeatInterval = setInterval(function() {
+             if (!interruptbutton.offsetParent) {
+-                genbutton.click();
++                if (coolDownCounter == 0) {
++					genbutton.click();
++					coolDownCounter = coolDown;
++					genbutton.innerHTML = "Generate";
++		        } else {		        
++        		    coolDownCounter--;
++        		    genbutton.innerHTML = "Generate (Cooldown: "+coolDownCounter+")";
++        		}                
+             }
+         },
+-        500);
++        1000);
+     };
+ 
+-    appendContextMenuOption('#txt2img_generate', 'Generate forever', function() {
++    appendContextMenuOption('#txt2img_generate', 'Generate forever with Cooldown', function() {
+         generateOnRepeat('#txt2img_generate', '#txt2img_interrupt');
+     });
+-    appendContextMenuOption('#img2img_generate', 'Generate forever', function() {
++    appendContextMenuOption('#img2img_generate', 'Generate forever with Cooldown', function() {
+         generateOnRepeat('#img2img_generate', '#img2img_interrupt');
+     });
+ 
+     let cancelGenerateForever = function() {
+         clearInterval(window.generateOnRepeatInterval);
++		gradioApp().querySelector('#txt2img_generate').innerHTML = "Generate";
+     };
+ 
+     appendContextMenuOption('#txt2img_interrupt', 'Cancel generate forever', cancelGenerateForever);
