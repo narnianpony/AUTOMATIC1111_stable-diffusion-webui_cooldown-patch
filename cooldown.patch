@@ -15,7 +15,7 @@ index f14af1d4..01fbf6d7 100644
          window.generateOnRepeatInterval = setInterval(function() {
              if (!interruptbutton.offsetParent) {
 -                genbutton.click();
-+                if (coolDownCounter == 0) {
++                if (coolDownCounter <= 0) {
 +					genbutton.click();
 +					coolDownCounter = coolDown;
 +					genbutton.innerHTML = "Generate";
