@@ -144,7 +144,7 @@ var addContextMenuEventListener = initResponse[2];
         clearInterval(window.generateOnRepeatInterval);
         window.generateOnRepeatInterval = setInterval(function() {
             if (!interruptbutton.offsetParent) {
-                if (coolDownCounter == 0) {
+                if (coolDownCounter <= 0) {
 					genbutton.click();
 					coolDownCounter = coolDown;
 					genbutton.innerHTML = "Generate";
