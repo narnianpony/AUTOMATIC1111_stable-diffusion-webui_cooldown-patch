@@ -1,8 +1,8 @@
 diff --git a/javascript/contextMenus.js b/javascript/contextMenus.js
-index f14af1d4..01fbf6d7 100644
+index ccae242f..55980d4e 100644
 --- a/javascript/contextMenus.js
 +++ b/javascript/contextMenus.js
-@@ -136,27 +136,37 @@ var addContextMenuEventListener = initResponse[2];
+@@ -136,16 +136,25 @@ var addContextMenuEventListener = initResponse[2];
      let generateOnRepeat = function(genbuttonid, interruptbuttonid) {
          let genbutton = gradioApp().querySelector(genbuttonid);
          let interruptbutton = gradioApp().querySelector(interruptbuttonid);
@@ -29,18 +29,24 @@ index f14af1d4..01fbf6d7 100644
 +        1000);
      };
  
--    appendContextMenuOption('#txt2img_generate', 'Generate forever', function() {
-+    appendContextMenuOption('#txt2img_generate', 'Generate forever with Cooldown', function() {
-         generateOnRepeat('#txt2img_generate', '#txt2img_interrupt');
-     });
--    appendContextMenuOption('#img2img_generate', 'Generate forever', function() {
-+    appendContextMenuOption('#img2img_generate', 'Generate forever with Cooldown', function() {
+     let generateOnRepeat_txt2img = function() {
+@@ -156,13 +165,15 @@ var addContextMenuEventListener = initResponse[2];
          generateOnRepeat('#img2img_generate', '#img2img_interrupt');
-     });
+     };
+ 
+-    appendContextMenuOption('#txt2img_generate', 'Generate forever', generateOnRepeat_txt2img);
+-    appendContextMenuOption('#txt2img_interrupt', 'Generate forever', generateOnRepeat_txt2img);
+-    appendContextMenuOption('#img2img_generate', 'Generate forever', generateOnRepeat_img2img);
+-    appendContextMenuOption('#img2img_interrupt', 'Generate forever', generateOnRepeat_img2img);
++    appendContextMenuOption('#txt2img_generate', 'Generate forever with Cooldown', generateOnRepeat_txt2img);
++    appendContextMenuOption('#txt2img_interrupt', 'Generate forever with Cooldown', generateOnRepeat_txt2img);
++    appendContextMenuOption('#img2img_generate', 'Generate forever with Cooldown', generateOnRepeat_img2img);
++    appendContextMenuOption('#img2img_interrupt', 'Generate forever with Cooldown', generateOnRepeat_img2img);
  
      let cancelGenerateForever = function() {
          clearInterval(window.generateOnRepeatInterval);
-+		gradioApp().querySelector('#txt2img_generate').innerHTML = "Generate";
++   		gradioApp().querySelector('#txt2img_generate').innerHTML = "Generate";
++		gradioApp().querySelector('#img2img_generate').innerHTML = "Generate";
      };
  
      appendContextMenuOption('#txt2img_interrupt', 'Cancel generate forever', cancelGenerateForever);
